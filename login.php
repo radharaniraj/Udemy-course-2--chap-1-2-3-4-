@@ -9,30 +9,36 @@ $db = new Mysqli;
 $db->connect('localhost','root','','user');
 
 session_start();
+
+     
 if(isset($_POST['username'])){
     
-    $uname=$_POST['username'];
+    
+     $_SESSION['uname']=$_POST['username'];
     $password=$_POST['password'];
+    
+    if($_SESSION['uname'] and $password){
     $password=md5($password);
     
-    $sql="select * from login where username='".$uname."'AND Password='".$password."' limit 1";
+    
+    $sql="select * from login where username='".$_SESSION['uname']."'AND Password='".$password."' limit 1";
     
     $result=$db->query($sql);
     
     if(mysqli_num_rows($result)==1){
-        header('location:welcome.html');
+        header('location:welcome.php');
         
         exit();
     }
     else{
         
-        $sql="INSERT INTO login(username,password) VALUES ('$uname','$password')";
-        $val=$db->query($sql);
-    if($val){
-        header('location: welcome.html');
+        echo '<script>alert("Incorrect username or password")</script>';
     }
+    
+}
+else{
+        echo '<script>alert("Something Wrong")</script>';
     }
-        
 }
 ?>
 <!DOCTYPE html>
@@ -52,7 +58,8 @@ if(isset($_POST['username'])){
 			<div class="form-input">
 				<input type="password" name="password" placeholder="password"/>
 			</div>
-			<input type="submit" name="submit" value="LOGIN" class="btn-login"/>
+			<input type="submit" name="submit" value="LOGIN" class="btn-login" />
+			<input name="submit" value="SIGNUP" class="btn-login" onClick="document.location.href='regdup.php'"/>
 		</form>
 	</div>
 </body>
