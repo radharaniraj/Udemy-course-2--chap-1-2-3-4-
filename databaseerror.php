@@ -2,7 +2,7 @@
 
 
 { 	
-		include('dbConnection.php'); 
+		include_once('dbConnection.php'); 
 		$dbSuccess = false;
 		$dbConnected = mysql_connect($db['hostname'],$db['username'],$db['password']);
 		
